@@ -1,0 +1,71 @@
+<div class="container mt-4">
+  <h3>مدیریت کاربران</h3>
+
+  <!-- فرم ایجاد کاربر -->
+  <div class="card mb-4">
+    <div class="card-header">ایجاد کاربر جدید</div>
+    <div class="card-body">
+      <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label class="form-label">نام</label>
+            <input type="text" class="form-control" formControlName="firstName">
+          </div>
+          <div class="col-md-6 mb-3">
+            <label class="form-label">نام خانوادگی</label>
+            <input type="text" class="form-control" formControlName="lastName">
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label class="form-label">نام کاربری</label>
+            <input type="text" class="form-control" formControlName="username">
+          </div>
+          <div class="col-md-6 mb-3">
+            <label class="form-label">شماره موبایل</label>
+            <input type="text" class="form-control" formControlName="mobile">
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">رمز عبور</label>
+          <input type="password" class="form-control" formControlName="password">
+        </div>
+
+        <button type="submit" class="btn btn-primary" [disabled]="userForm.invalid">ایجاد کاربر</button>
+      </form>
+
+      <div *ngIf="message" class="alert mt-3" [ngClass]="{'alert-success': success, 'alert-danger': !success}">
+        {{ message }}
+      </div>
+    </div>
+  </div>
+
+  <!-- لیست کاربران -->
+  <div class="card">
+    <div class="card-header">لیست کاربران</div>
+    <div class="card-body p-0">
+      <table class="table table-striped mb-0">
+        <thead>
+        <tr>
+          <th>نام</th>
+          <th>نام خانوادگی</th>
+          <th>نام کاربری</th>
+          <th>موبایل</th>
+          <th>تاریخ ایجاد</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let u of users">
+          <td>{{ u.firstName }}</td>
+          <td>{{ u.lastName }}</td>
+          <td>{{ u.username }}</td>
+          <td>{{ u.mobile }}</td>
+          <td>{{ u.InsertedDateTime | date:'yyyy/MM/dd HH:mm' }}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

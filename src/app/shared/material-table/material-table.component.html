@@ -1,0 +1,111 @@
+<div class="container-fluid">
+  <div class="row mt-2" *ngIf="showFilter">
+    <div [class]="'col-' + filterBoxCols">
+      <input
+        type="text"
+        class="form-control mb-3 b-mitra"
+        placeholder="جستجو..."
+        [(ngModel)]="searchTerm"
+        (ngModelChange)="onSearchChange()"
+      />
+    </div>
+  </div>
+
+  <mat-card class="example-card" appearance="outlined">
+    <mat-card-header>
+      <div mat-card-avatar class="example-header-image"></div>
+      <mat-card-title class="full-width text-center">{{title}}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <table class="w-100">
+        <thead>
+        <!-- Header Row -->
+        <tr class="bg-primary text-white fw-bold py-2" *ngIf="data && data.length>0">
+          <th class="col text-center"
+              *ngFor="let col of columnHeaders; trackBy: trackByKey"
+              (click)="sort(col.key)"
+              [ngClass]="'sortable'"
+              [attr.aria-sort]="sortColumn === col.key ? (sortDirection === 'asc' ? 'ascending' : 'descending') : 'none'">
+            {{ col.label }}
+            <span *ngIf="sortColumn === col.key">
+        {{ sortDirection === 'asc' ? '▲' : sortDirection === 'desc' ? '▼' : '' }}
+      </span>
+          </th>
+          <th class="col text-center" *ngIf="enableChart">
+            نمودار
+          </th>
+          <th class="col text-center" *ngIf="enableActions">
+            عملیات
+          </th>
+        </tr>
+        </thead>
+        <!-- Data Rows -->
+        <tbody>
+        <tr *ngFor="let row of filteredData; let i = index; trackBy: trackByRow"
+            class="border-bottom p-2 text-center align-items-center py-3">
+          <td *ngFor="let col of columnHeaders; trackBy: trackByKey" class="border-end border-start px-3">
+            <span *ngIf="col.type=='number'">{{ row[col.key] | number:'1.0-2' }}</span>
+            <span *ngIf="col.type==''">{{ row[col.key]}}</span>
+            <span *ngIf="col.type=='date'">{{shamsi_date(row[col.key])}}</span>
+            <span *ngIf="col.type=='boolean'">
+        <i *ngIf="row[col.key]==true" class="fa fa-check-circle fa-2x green-color mt-2"></i>
+        <i *ngIf="row[col.key]==false" class="fa fa-times-circle fa-2x red-color mt-2"></i>
+            </span>
+            <span>
+              {{ GetFieldPostFix(col.key) }}
+            </span>
+          </td>
+          <td class="" style="width: 60px" *ngIf="enableChart" class="border-end border-start">
+            <canvas baseChart
+                    [data]="getPieChartData(row)"
+                    [type]="'pie'"
+                    [options]="pieChartOptions"
+                    style="width: 50px; height: 50px;">
+            </canvas>
+          </td>
+          <td class="text-end" *ngIf="enableActions" class="border-end border-start">
+            <button *ngIf="showDetailsInDialog" class="btn btn-outline-secondary" (click)="openDetailsDialog(row)">
+              <i class="fa fa-table"></i>
+            </button>
+            <button *ngIf="enableNested" (click)="toggleRow(i)" class="btn btn-outline-primary mx-1">
+              <i class="fa" [ngClass]="expandedRowIndex === i ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+            </button>
+            <button *ngIf="enableEdit" (click)="Edit(row)" class="btn btn-info mx-1">
+              <i class="fa fa-pencil fa-2x"></i>
+            </button>
+            <button *ngIf="canDelete(row)" (click)="Delete(row)" class="btn btn-danger mx-1">
+              <i class="fa fa-remove fa-2x"></i>
+            </button>
+            <ng-container *ngFor="let button of CustomButtons">
+              <button [class]="button.button_class" *ngIf="button.show(row)"
+                      (click)="button.click(row)"
+              >{{button.button_title}}<i
+                *ngIf="button.button_icon!=''"
+                [class]="button.button_icon"></i></button>
+            </ng-container>
+          </td>
+        </tr>
+        </tbody>
+        <!-- Nested Row -->
+        <!--        <div class="row bg-light p-3" *ngIf="enableNested && expandedRowIndex === i">-->
+        <!--          <div class="col-12">-->
+        <!--            <app-material-table-->
+        <!--              *ngIf="row && nestedDataKey && row[nestedDataKey]"-->
+        <!--              [data]="[row[nestedDataKey]]"-->
+        <!--              [type]="nestedType"-->
+        <!--              [enableNested]="false">-->
+        <!--            </app-material-table>-->
+        <!--          </div>-->
+        <!--        </div>-->
+
+      </table>
+      <div class="row mt-2 justify-content-center">
+        <div class="col-auto">
+          <label [class]="footer_class">{{footer_text}}</label>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+
+</div>

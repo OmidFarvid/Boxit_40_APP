@@ -1,0 +1,15 @@
+<div class="row b-mitra mt-2">
+  <div class="col-4 text-end d-grid">
+    <button class="btn btn-success b-mitra w-100 fs-18" (click)="Submit()"> {{SubmitTitle}}</button>
+  </div>
+  @if(ClearTitle!=""){
+  <div class="col-4 text-end d-grid">
+    <button class="btn btn-danger b-mitra w-100 fs-18" (click)="Clear()">{{ClearTitle}}</button>
+  </div>
+  }
+  @if (ShowExcel) {
+  <div class="col-4 text-end d-grid">
+      <button class="btn btn-info b-mitra w-100 fs-18" (click)="GetExcel()">Excel</button>
+  </div>
+  }
+</div>

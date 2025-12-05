@@ -1,0 +1,14 @@
+<div class="container b-mitra">
+  <div class="row mt-5 justify-content-center">
+    <div class="col-12 text-center">
+      <h5 [innerHTML]="data.title"></h5>
+    </div>
+  </div>
+
+  <div class="row mt-5 justify-content-center">
+    <div class="col-12 text-center">
+      <button class="btn btn-danger mx-3 b-mitra" (click)="onConfirm()">{{data.confirmTitle}}</button>
+      <button class="btn btn-success mx-3 b-mitra" (click)="onCancel()">{{data.cancelTitle}}</button>
+    </div>
+  </div>
+</div>

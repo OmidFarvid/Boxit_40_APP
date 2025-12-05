@@ -1,0 +1,37 @@
+<div class="row mt-2 p-5">
+  <div class="col-12">
+    <div class="row mt-2 justify-content-center">
+      <div class="col-2 text-start">
+    <span>
+      نام مقصد
+    </span>
+      </div>
+      <div class="col-6">
+        <input type="text" class="form-control" [(ngModel)]="cluster.clusterTitle">
+      </div>
+    </div>
+    <div class="row mt-2 justify-content-center">
+      <div class="col-2 text-start">
+    <span>
+      کد مقصد
+    </span>
+      </div>
+      <div class="col-6">
+        <input type="text" class="form-control" [(ngModel)]="cluster.clusterCode">
+      </div>
+    </div>
+    <div class="row mt-2 justify-content-center">
+      <div class="col-2 text-start"></div>
+      <div class="col-6">
+        <app-management-buttons (OnSubmit)="AddCluster()"></app-management-buttons>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row mt-2 p-5">
+  <div class="col-12">
+    <app-material-table [type]="ClusterType"
+                        [deleteMessageFn]="customDeleteMessage"
+                        [data]="clusters" [filterBoxCols]="6"  [appComponent]="app" [title]="'مقاصد'"></app-material-table>
+  </div>
+</div>

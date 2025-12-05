@@ -1,0 +1,21 @@
+<div class="login-container">
+  <h2>ورود به سیستم</h2>
+
+  <div class="form-group">
+    <label>نام کاربری</label>
+    <input type="text" [(ngModel)]="loginRequest.Username" class="form-control"/>
+  </div>
+
+  <div class="form-group">
+    <label>رمز عبور</label>
+    <input type="password" [(ngModel)]="loginRequest.Password" class="form-control"/>
+  </div>
+  @if (errorMessage) {
+    <div class="alert alert-danger mt-2">
+      {{ errorMessage }}
+    </div>
+  }
+  <button type="submit" class="btn btn-primary mt-3" (click)="login()">
+    ورود
+  </button>
+</div>
