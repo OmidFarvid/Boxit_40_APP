@@ -3,6 +3,8 @@ import {Observable} from 'rxjs';
 import {environment} from '../environments/environment';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Cluster} from './models/cluster.model';
+import {Gate} from './models/gate.model';
+import {Session} from './models/session.model';
 
 @Injectable({
   providedIn: 'root',
@@ -37,4 +39,74 @@ export class Api {
     return this.httpClient.post(environment.baseUrl + '/Cluster/DeleteCluster/' + token, Cluster);
   }
 
+  UploadExcel(token: string, bytes: any) {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.httpClient.post(environment.baseUrl + '/Session/UploadExcel', bytes, {headers});
+  }
+
+  public GetGates(token: string): Observable<any> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.httpClient.get(environment.baseUrl + '/Gate/all', {headers});
+  }
+
+  public AddGate(token: string,gate:Gate): Observable<any> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.httpClient.post(environment.baseUrl + '/Gate/add',gate, {headers});
+  }
+
+  public DeleteGate(token: string,gate:Gate): Observable<any> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.httpClient.get(environment.baseUrl + '/Gate/delete/'+gate.id, {headers});
+  }
+  ///////////////////////////////////Session
+  public GetSessions(token: string): Observable<any> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.httpClient.get(environment.baseUrl + '/Session/all', {headers});
+  }
+
+  public AddSession(token: string,session:Session): Observable<any> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.httpClient.post(environment.baseUrl + '/Session/add',session, {headers});
+  }
+
+  public DeleteSession(token: string,session:Session): Observable<any> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.httpClient.get(environment.baseUrl + '/Session/delete/'+session.id, {headers});
+  }
+
+  public StartSession(token: string,session:Session): Observable<any> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.httpClient.get(environment.baseUrl + '/Session/start/'+session.id, {headers});
+  }
+
+  public StopSession(token: string,session:Session): Observable<any> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.httpClient.get(environment.baseUrl + '/Session/stop/'+session.id, {headers});
+  }
+///////////////////////////////////Session
+
+  public SetSessionGates(token: string,session:Session): Observable<any> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.httpClient.get(environment.baseUrl + '/Session/stop/'+session.id, {headers});
+  }
 }

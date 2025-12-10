@@ -1,7 +1,7 @@
 import {ColumnHeader} from './Shared/column-header.decorator';
 
 export class BaseEntity{
-  iD:string;
+  id:string;
   @ColumnHeader('تاریخ ثبت',"",1000)
   shamsiInsertedDateTime:string;
   lastModifiedDateTime:string;
