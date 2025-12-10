@@ -1,0 +1,58 @@
+<div class="row mt-2 p-5">
+  <div class="col-6">
+    @for (gate of GetLeftGates(); track gate.id) {
+      <div class="row mt-2">
+        <div class="col-2 text-start">
+          {{ gate.gateNumber }}
+        </div>
+        <div class="col-10 text-center px-5">
+          <select class="form-select" [(ngModel)]="gate.selectedClusterId" (change)="selectCluster($event,gate)">
+            <option>
+              -- مقصد را انتخاب کنید --
+            </option>
+            @for (cluster of GetUnselectedClusters(gate); track cluster.id) {
+              <option [value]="cluster.id">
+                {{ cluster.clusterTitle }}
+              </option>
+            }
+            <option>
+              غیر فعال
+            </option>
+          </select>
+        </div>
+      </div>
+    }
+  </div>
+  <div class="col-6">
+    @for (gate of GetRightGates(); track gate.id) {
+      <div class="row mt-2">
+        <div class="col-2 text-start">
+          {{ gate.gateNumber }}
+        </div>
+        <div class="col-10 text-center px-5">
+          <select class="form-select"
+                  [(ngModel)]="gate.selectedClusterId"
+                  (change)="selectCluster($event, gate)">
+
+            <option value="">-- مقصد را انتخاب کنید --</option>
+
+            @for (cluster of GetUnselectedClusters(gate); track cluster.id) {
+              <option [value]="cluster.id">
+                {{ cluster.clusterTitle }}
+              </option>
+            }
+            <option value="disabled">غیر فعال</option>
+          </select>
+        </div>
+      </div>
+    }
+  </div>
+</div>
+
+<div class="row mt-2 justify-content-center">
+  <div class="col-6 text-start">
+    <app-management-buttons [appComponent]="app" (OnSubmit)="SetSessionGates()" (OnClear)="ClearSessionGates()">
+
+    </app-management-buttons>
+  </div>
+</div>
