@@ -9,6 +9,8 @@ import {ClusterService} from '../services/cluster-service';
 import {Cluster} from '../models/cluster.model';
 import {FormsModule} from '@angular/forms';
 import {ManagementButtonsComponent} from '../shared/management-buttons/management-buttons.component';
+import {Session} from '../models/session.model';
+import {SessionService} from '../services/session-service';
 
 @Component({
   selector: 'app-session-gates-management',
@@ -25,6 +27,7 @@ export class SessionGatesManagement implements AfterViewInit {
     , public api: Api
     , private gateService: GateService
     , private clusterService: ClusterService
+,private sessionService:SessionService
     , private cd: ChangeDetectorRef
     , private route: ActivatedRoute) {
   }
@@ -32,9 +35,11 @@ export class SessionGatesManagement implements AfterViewInit {
   gates: Gate[] = [];
   clusters: Cluster[] = [];
   unselectedClusters: Cluster[] = [];
+  session: Session;
 
   ngAfterViewInit(): void {
     const sessionId = this.route.snapshot.paramMap.get('id');
+    this.session = this.session
     console.log('SessionId:', sessionId);
     this.GetGates()
     this.GetClusters();
@@ -84,7 +89,7 @@ export class SessionGatesManagement implements AfterViewInit {
   }
 
   protected SetSessionGates() {
-    this.app.CallService(this.api.SetSessionGates(this.app.readToken()), ((data: CustomResponseType<Gate>) => {
+    this.app.CallService(this.api.SetSessionGates(this.app.readToken(),this.sess ((data: CustomResponseType<Gate>) => {
       this.gates = data.dataList;
       this.cd.detectChanges();
       console.log(this.gates);
