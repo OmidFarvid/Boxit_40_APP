@@ -5,6 +5,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Cluster} from './models/cluster.model';
 import {Gate} from './models/gate.model';
 import {Session} from './models/session.model';
+import {SessionGate} from './models/session-gate.model';
 
 @Injectable({
   providedIn: 'root',
@@ -110,7 +111,14 @@ export class Api {
   }
 ///////////////////////////////////Session
 
-  public SetSessionGates(token: string,session:Session): Observable<any> {
+  public SetSessionGates(token: string,sessionGates:SessionGate[]): Observable<any> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.httpClient.post(environment.baseUrl + '/SessionGates/add',sessionGates, {headers});
+  }
+
+  public GetSessionGates(token: string,session:Session): Observable<any> {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });

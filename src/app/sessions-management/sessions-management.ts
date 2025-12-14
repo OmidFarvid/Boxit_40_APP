@@ -88,7 +88,7 @@ export class SessionsManagement implements AfterViewInit {
 
   protected SessionButtons() {
     let customButtons: CustomButton[] = [];
-    customButtons.push(new CustomButton('btn btn-success mx-1', '', 'fa fa-play fa-2x', (session: Session) => {
+    customButtons.push(new CustomButton( 'fa fa-play green-color fa-2x mx-2', (session: Session) => {
         this.app.CallService(this.api.StartSession(this.app.readToken(), session), ((data: CustomResponseType<Session>) => {
           this.GetSessions();
           this.cd.detectChanges();
@@ -97,7 +97,7 @@ export class SessionsManagement implements AfterViewInit {
         return this.ShowStartButton(data);
       })
     )
-    customButtons.push(new CustomButton('btn btn-warning mx-1', '', 'fa fa-stop fa-2x', (session: Session) => {
+    customButtons.push(new CustomButton( 'fa fa-stop red-color fa-2x mx-2', (session: Session) => {
         this.app.CallService(this.api.StopSession(this.app.readToken(), session), ((data: CustomResponseType<Session>) => {
           this.GetSessions();
           this.cd.detectChanges();
@@ -107,20 +107,14 @@ export class SessionsManagement implements AfterViewInit {
       })
     )
 
-    customButtons.push(new CustomButton('btn btn-info mx-1', '', 'fa fa-outdent fa-2x', (session: Session) => {
-        // this.app.CallService(this.api.StopSession(this.app.readToken(), session), ((data: CustomResponseType<Session>) => {
-        //   this.GetSessions();
-        //   this.cd.detectChanges();
-        // }));
-        //***Navigate to /SessionGates/session.id
+    customButtons.push(new CustomButton('fa fa-outdent fa-2x mx-2', (session: Session) => {
         this.router.navigate(['/sessionGatesManagement', session.id]);
-
       }, (data) => {
         return this.ShowGatesButton(data);
       })
     )
 
-    return customButtons;
+     return customButtons;
   }
 
   private ShowStartButton(data: Session) {
@@ -132,5 +126,13 @@ export class SessionsManagement implements AfterViewInit {
   }
   private ShowGatesButton(data: Session) {
     return data.startDateTime != null && data.endDateTime == null;
+  }
+
+  private DeleteGatesButton(data: Session) {
+    return data.startDateTime == null && data.endDateTime == null;
+  }
+
+  protected AllowUpload() {
+    return this.sessions.filter((f)=>f.startDateTime==null && f.endDateTime==null).length>0;
   }
 }
