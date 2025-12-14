@@ -74,6 +74,13 @@ export class Api {
     return this.httpClient.get(environment.baseUrl + '/Session/all', {headers});
   }
 
+  public GetSessionById(token: string,sessionId:string): Observable<any> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.httpClient.get(environment.baseUrl + '/Session/getById/'+sessionId, {headers});
+  }
+
   public AddSession(token: string,session:Session): Observable<any> {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`

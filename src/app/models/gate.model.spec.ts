@@ -1,4 +1,4 @@
-import { Gate } from './gatemodel';
+import { Gate } from './gate.model';
 
 describe('Gate', () => {
   it('should create an instance', () => {

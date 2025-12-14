@@ -37,9 +37,9 @@ export class SessionGatesManagement implements AfterViewInit {
   unselectedClusters: Cluster[] = [];
   session: Session;
 
-  ngAfterViewInit(): void {
-    const sessionId = this.route.snapshot.paramMap.get('id');
-    this.session = this.session
+  async ngAfterViewInit(): Promise<void> {
+    let sessionId = this.route.snapshot.paramMap.get('id');
+    this.session = await this.sessionService.GetSessionById(this.app, sessionId);
     console.log('SessionId:', sessionId);
     this.GetGates()
     this.GetClusters();
@@ -89,7 +89,7 @@ export class SessionGatesManagement implements AfterViewInit {
   }
 
   protected SetSessionGates() {
-    this.app.CallService(this.api.SetSessionGates(this.app.readToken(),this.sess ((data: CustomResponseType<Gate>) => {
+    this.app.CallService(this.api.SetSessionGates(this.app.readToken(),this.session),((data: CustomResponseType<Gate>) => {
       this.gates = data.dataList;
       this.cd.detectChanges();
       console.log(this.gates);
