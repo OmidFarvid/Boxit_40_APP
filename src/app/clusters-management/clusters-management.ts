@@ -59,6 +59,6 @@ export class ClustersManagement implements OnInit {
   }
 
   customDeleteMessage = (item: any) =>
-    "1111";
+    `آیا مایل به حذف ${item.clusterTitle} میباشید؟`;
 }
 

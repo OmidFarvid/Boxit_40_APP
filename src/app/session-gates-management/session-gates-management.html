@@ -10,9 +10,9 @@
             <option>
               -- مقصد را انتخاب کنید --
             </option>
-            @for (cluster of GetUnselectedClusters(gate); track cluster.id) {
-              <option [value]="cluster.id">
-                {{ cluster.clusterTitle }}
+            @for (cluster of GetUnselectedClusters(gate); track cluster) {
+              <option [value]="cluster">
+                {{ cluster }}
               </option>
             }
             <option>
@@ -36,9 +36,9 @@
 
             <option value="">-- مقصد را انتخاب کنید --</option>
 
-            @for (cluster of GetUnselectedClusters(gate); track cluster.id) {
-              <option [value]="cluster.id">
-                {{ cluster.clusterTitle }}
+            @for (cluster of GetUnselectedClusters(gate); track cluster) {
+              <option [value]="cluster">
+                {{ cluster }}
               </option>
             }
             <option value="disabled">غیر فعال</option>

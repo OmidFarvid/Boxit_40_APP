@@ -124,4 +124,10 @@ export class Api {
     });
     return this.httpClient.get(environment.baseUrl + '/Session/stop/'+session.id, {headers});
   }
+  public GetSessionClusters(token: string,session:Session): Observable<any> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.httpClient.get(environment.baseUrl + '/Session/GetSessionClusters/'+session.id, {headers});
+  }
 }

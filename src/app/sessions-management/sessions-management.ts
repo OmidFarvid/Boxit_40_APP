@@ -15,7 +15,6 @@ import {Router} from '@angular/router';
 @Component({
   selector: 'app-sessions-management',
   imports: [
-    ManagementButtonsComponent,
     MaterialTableComponent,
     ReactiveFormsModule
   ],
@@ -125,7 +124,7 @@ export class SessionsManagement implements AfterViewInit {
     return data.startDateTime != null && data.endDateTime == null;
   }
   private ShowGatesButton(data: Session) {
-    return data.startDateTime != null && data.endDateTime == null;
+    return data.startDateTime == null && data.endDateTime == null;
   }
 
   private DeleteGatesButton(data: Session) {

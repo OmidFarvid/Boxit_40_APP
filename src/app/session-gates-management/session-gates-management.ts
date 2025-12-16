@@ -1,5 +1,5 @@
 import {AfterViewInit, ChangeDetectorRef, Component} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {CustomResponseType} from '../models/custom-response-type.model';
 import {Gate} from '../models/gate.model';
 import {App} from '../app';
@@ -30,11 +30,14 @@ export class SessionGatesManagement implements AfterViewInit {
     , private clusterService: ClusterService
     ,private sessionService:SessionService
     , private cd: ChangeDetectorRef
-    , private route: ActivatedRoute) {
+    , private route: ActivatedRoute
+    , private router: Router) {
   }
 
   gates: Gate[] = [];
   clusters: Cluster[] = [];
+  pureClusters: string[] = [];
+  unselectedPureClusters: string[] = [];
   unselectedClusters: Cluster[] = [];
   session: Session;
   sessionGates:SessionGate[]=[];
@@ -59,18 +62,18 @@ export class SessionGatesManagement implements AfterViewInit {
         sessionGate.sessionId = this.session.id;
         this.sessionGates.push(sessionGate);
       });
-      this.GetClusters();
+      this.GetSessionClusters();
       this.cd.detectChanges();
       console.log(this.clusters);
     }));
   }
 
-  public GetClusters() {
-    this.app.CallService(this.api.GetClusters(this.app.readToken()), ((data: CustomResponseType<Cluster>) => {
-      this.clusters = data.dataList;
+  public GetSessionClusters() {
+    this.app.CallService(this.api.GetSessionClusters(this.app.readToken(),this.session), ((data: CustomResponseType<string>) => {
+      this.pureClusters = data.dataList;
       this.cd.detectChanges();
       console.log(this.clusters);
-      this.unselectedClusters = data.dataList;
+      this.unselectedPureClusters = data.dataList;
     }));
   }
 
@@ -87,21 +90,22 @@ export class SessionGatesManagement implements AfterViewInit {
 
     // فقط اگر یک cluster واقعی انتخاب شده
     if (clusterId && clusterId !== "disabled") {
-      this.unselectedClusters = this.unselectedClusters.filter(
-        f => f.id != clusterId
+      this.unselectedPureClusters = this.unselectedPureClusters.filter(
+        f => f != clusterId
       );
     }
     let sessionGate = this.sessionGates.filter(f=>f.gateId==gate.id);
     if (sessionGate.length>0){
-      sessionGate[0].clusterId = clusterId;
+      sessionGate[0].regionCode = clusterId;
     }
+
 
     console.log("Gate:", gate);
     console.log("Selected:", clusterId);
   }
 
   protected GetUnselectedClusters(gate: Gate) {
-    return this.unselectedClusters.concat(this.clusters.filter(f=>f.id == gate.selectedClusterId));
+    return this.unselectedPureClusters.concat(this.pureClusters.filter(f=>f == gate.selectedClusterId));
   }
 
   protected SetSessionGates() {
@@ -109,6 +113,7 @@ export class SessionGatesManagement implements AfterViewInit {
     this.app.CallService(this.api.SetSessionGates(this.app.readToken(),this.sessionGates),((data: CustomResponseType<boolean>) => {
       this.cd.detectChanges();
       console.log(this.gates);
+      this.router.navigate(['/sessionManagement']);
     }));
   }
 

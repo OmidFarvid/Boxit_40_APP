@@ -54,7 +54,7 @@ export class GatesManagement implements OnInit {
   }
 
   customDeleteMessage = (item: any) =>
-    "1111";
+  `آیا مایل به حذف ${item.Title} میباشید؟`;
 
   protected DeleteGate(gate: Gate) {
     this.app.CallService(this.api.DeleteGate(this.app.readToken(), gate), ((data: CustomResponseType<Gate>) => {
