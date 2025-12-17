@@ -113,6 +113,13 @@ export class SessionsManagement implements AfterViewInit {
       })
     )
 
+    customButtons.push(new CustomButton('fa fa-info blue-color fa-2x mx-2', (session: Session) => {
+        this.router.navigate(['/sessionDetail', session.id]);
+      }, (data) => {
+        return this.ShowGatesButton(data);
+      })
+    )
+
      return customButtons;
   }
 
@@ -134,4 +141,9 @@ export class SessionsManagement implements AfterViewInit {
   protected AllowUpload() {
     return this.sessions.filter((f)=>f.startDateTime==null && f.endDateTime==null).length>0;
   }
+
+  protected AllowDelete = (row: Session) => {
+    return row.startDateTime == null && row.endDateTime == null;
+  };
+
 }

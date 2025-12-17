@@ -46,7 +46,7 @@
       <app-material-table [type]="SessionType"
                           [deleteMessageFn]="customDeleteMessage"
                           [data]="sessions" [filterBoxCols]="6" [appComponent]="app" [title]="'Sessions'"
-                          (OnDelete)="DeleteSession($event)"
+                          (OnDelete)="DeleteSession($event)" [enableEdit]="false" [canDelete]="AllowDelete"
                           [CustomButtons]="SessionButtons()"></app-material-table>
     </div>
   </div>
