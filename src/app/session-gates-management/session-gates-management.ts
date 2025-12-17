@@ -118,6 +118,6 @@ export class SessionGatesManagement implements AfterViewInit {
   }
 
   protected ClearSessionGates() {
-
+    this.router.navigate(['/sessionManagement']);
   }
 }
