@@ -1,48 +1,47 @@
 <div class="row mt-2 p-5">
   <div class="col-6">
     @for (gate of GetLeftGates(); track gate.id) {
-      <div class="row mt-2">
-        <div class="col-2 text-start">
+      <div class="row mt-2 align-items-center shoot shoot-right">
+
+
+        <div class="col-8 px-5 align-items-center gap-3">
+
+          <span class="b-mitra" role="button" (click)="!getSessionGate(gate)?.regionCode && openClusterDialog(gate)">
+            {{ getSessionGate(gate)?.regionCode || 'فاقد مقصد' }}
+          </span>
+          @if (getSessionGate(gate)?.regionCode) {
+            <i class="fa fa-times fa-2x text-danger"
+               (click)="clearGateCluster(gate)"></i>
+          }
+        </div>
+        <span class="col-2 text-start">
+          <i class="fw-bolder fa fa-long-arrow-right gate-right-arrow"></i>
+        </span>
+        <span class="col-2 text-start">
           {{ gate.gateNumber }}
-        </div>
-        <div class="col-10 text-center px-5">
-          <select class="form-select" [(ngModel)]="gate.selectedClusterId" (change)="selectCluster($event,gate)">
-            <option>
-              -- مقصد را انتخاب کنید --
-            </option>
-            @for (cluster of GetUnselectedClusters(gate); track cluster) {
-              <option [value]="cluster">
-                {{ cluster }}
-              </option>
-            }
-            <option>
-              غیر فعال
-            </option>
-          </select>
-        </div>
+        </span>
       </div>
     }
   </div>
+
   <div class="col-6">
     @for (gate of GetRightGates(); track gate.id) {
-      <div class="row mt-2">
-        <div class="col-2 text-start">
+      <div class="row mt-2 align-items-center shoot shoot-left">
+        <span class="col-2 text-end">
           {{ gate.gateNumber }}
-        </div>
-        <div class="col-10 text-center px-5">
-          <select class="form-select"
-                  [(ngModel)]="gate.selectedClusterId"
-                  (change)="selectCluster($event, gate)">
+        </span>
+        <span class="col-2 text-end">
+          <i class="fw-bolder fa fa-long-arrow-left gate-left-arrow"></i>
+        </span>
+        <div class="col-8 px-5 align-items-center text-start gap-3">
 
-            <option value="">-- مقصد را انتخاب کنید --</option>
-
-            @for (cluster of GetUnselectedClusters(gate); track cluster) {
-              <option [value]="cluster">
-                {{ cluster }}
-              </option>
-            }
-            <option value="disabled">غیر فعال</option>
-          </select>
+          <span class="b-mitra" role="button" (click)="!getSessionGate(gate)?.regionCode && openClusterDialog(gate)">
+            {{ getSessionGate(gate)?.regionCode || 'فاقد مقصد' }}
+          </span>
+          @if (getSessionGate(gate)?.regionCode) {
+            <i class="fa fa-times fa-2x text-danger"
+               (click)="clearGateCluster(gate)"></i>
+          }
         </div>
       </div>
     }
@@ -50,9 +49,11 @@
 </div>
 
 <div class="row mt-2 justify-content-center">
-  <div class="col-6 text-start">
-    <app-management-buttons [appComponent]="app" (OnSubmit)="SetSessionGates()" (OnClear)="ClearSessionGates()">
-
+  <div class="col-4 text-start">
+    <app-management-buttons (OnSubmit)="SetSessionGates()" (OnClear)="ClearSessionGates()">
     </app-management-buttons>
+  </div>
+  <div class="col-2 text-start d-grid">
+    <button class="btn btn-info" (click)="AutoSetGates()">چیدمان خودکار</button>
   </div>
 </div>

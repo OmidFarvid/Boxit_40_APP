@@ -125,12 +125,21 @@ export class Api {
     return this.httpClient.post(environment.baseUrl + '/SessionGates/add',sessionGates, {headers});
   }
 
-  public GetSessionGates(token: string,session:Session): Observable<any> {
+  // public GetSessionGates(token: string,session:Session): Observable<any> {
+  //   const headers = new HttpHeaders({
+  //     'Authorization': `Bearer ${token}`
+  //   });
+  //   return this.httpClient.get(environment.baseUrl + '/Session/stop/'+session.id, {headers});
+  // }
+
+  public GetCurrentSessionGates(token: string): Observable<any> {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
-    return this.httpClient.get(environment.baseUrl + '/Session/stop/'+session.id, {headers});
+    return this.httpClient.get(environment.baseUrl + '/SessionGates/GetCurrentSessionGates', {headers});
   }
+
+
   public GetSessionClusters(token: string,session:Session): Observable<any> {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`

@@ -12,6 +12,9 @@ import {ManagementButtonsComponent} from '../shared/management-buttons/managemen
 import {Session} from '../models/session.model';
 import {SessionService} from '../services/session-service';
 import {SessionGate} from '../models/session-gate.model';
+import {MatDialog} from '@angular/material/dialog';
+import {GateSelectorDialog} from '../gate-selector-dialog/gate-selector-dialog';
+import {SessionGateService} from '../services/session-gate-service';
 
 @Component({
   selector: 'app-session-gates-management',
@@ -28,10 +31,12 @@ export class SessionGatesManagement implements AfterViewInit {
     , public api: Api
     , private gateService: GateService
     , private clusterService: ClusterService
-    ,private sessionService:SessionService
+    , private sessionService: SessionService
     , private cd: ChangeDetectorRef
     , private route: ActivatedRoute
-    , private router: Router) {
+    , private router: Router
+    , private sessionGateService: SessionGateService
+    , private dialog: MatDialog) {
   }
 
   gates: Gate[] = [];
@@ -40,20 +45,19 @@ export class SessionGatesManagement implements AfterViewInit {
   unselectedPureClusters: string[] = [];
   unselectedClusters: Cluster[] = [];
   session: Session;
-  sessionGates:SessionGate[]=[];
+  sessionGates: SessionGate[] = [];
 
   async ngAfterViewInit(): Promise<void> {
     let sessionId = this.route.snapshot.paramMap.get('id');
     this.session = await this.sessionService.GetSessionById(this.app, sessionId);
     console.log('SessionId:', sessionId);
     this.GetGates()
-
     this.cd.detectChanges();
   }
 
   public async GetGates() {
-   // this.gates = await this.gateService.GetGates(this.app);
-   //  this.cd.detectChanges();
+    // this.gates = await this.gateService.GetGates(this.app);
+    //  this.cd.detectChanges();
     this.app.CallService(this.api.GetGates(this.app.readToken()), ((data: CustomResponseType<Gate>) => {
       this.gates = data.dataList;
       this.gates.forEach(gate => {
@@ -62,6 +66,7 @@ export class SessionGatesManagement implements AfterViewInit {
         sessionGate.sessionId = this.session.id;
         this.sessionGates.push(sessionGate);
       });
+      this.GetSessionGates();
       this.GetSessionClusters();
       this.cd.detectChanges();
       console.log(this.clusters);
@@ -69,7 +74,7 @@ export class SessionGatesManagement implements AfterViewInit {
   }
 
   public GetSessionClusters() {
-    this.app.CallService(this.api.GetSessionClusters(this.app.readToken(),this.session), ((data: CustomResponseType<string>) => {
+    this.app.CallService(this.api.GetSessionClusters(this.app.readToken(), this.session), ((data: CustomResponseType<string>) => {
       this.pureClusters = data.dataList;
       this.cd.detectChanges();
       console.log(this.clusters);
@@ -94,8 +99,8 @@ export class SessionGatesManagement implements AfterViewInit {
         f => f != clusterId
       );
     }
-    let sessionGate = this.sessionGates.filter(f=>f.gateId==gate.id);
-    if (sessionGate.length>0){
+    let sessionGate = this.sessionGates.filter(f => f.gateId == gate.id);
+    if (sessionGate.length > 0) {
       sessionGate[0].regionCode = clusterId;
     }
 
@@ -105,12 +110,12 @@ export class SessionGatesManagement implements AfterViewInit {
   }
 
   protected GetUnselectedClusters(gate: Gate) {
-    return this.unselectedPureClusters.concat(this.pureClusters.filter(f=>f == gate.selectedClusterId));
+    return this.unselectedPureClusters.concat(this.pureClusters.filter(f => f == gate.selectedClusterId));
   }
 
   protected SetSessionGates() {
 
-    this.app.CallService(this.api.SetSessionGates(this.app.readToken(),this.sessionGates),((data: CustomResponseType<boolean>) => {
+    this.app.CallService(this.api.SetSessionGates(this.app.readToken(), this.sessionGates), ((data: CustomResponseType<boolean>) => {
       this.cd.detectChanges();
       console.log(this.gates);
       this.router.navigate(['/sessionManagement']);
@@ -119,5 +124,114 @@ export class SessionGatesManagement implements AfterViewInit {
 
   protected ClearSessionGates() {
 
+  }
+
+  protected openClusterDialog(gate: Gate) {
+    const dialogRef = this.dialog.open(GateSelectorDialog, {
+      width: '400px',
+      panelClass: 'gate-selector-dialog',
+      data: {
+        gate: gate,
+        clusters: this.unselectedPureClusters
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((result: string | null) => {
+      if (!result) return;
+
+      gate.selectedClusterId = result;
+
+      // حذف مقصد از لیست آزاد
+      this.unselectedPureClusters =
+        this.unselectedPureClusters.filter(f => f !== result);
+
+      // ست روی SessionGate
+      let sessionGate = this.sessionGates.find(f => f.gateId === gate.id);
+      if (sessionGate) {
+        sessionGate.regionCode = result;
+      }
+
+      this.cd.detectChanges();
+    });
+  }
+
+  protected clearGateCluster(gate: Gate) {
+
+    if (!gate.selectedClusterId) return;
+
+    // برگردوندن مقصد به لیست آزاد
+    this.unselectedPureClusters.push(gate.selectedClusterId);
+
+    // پاک کردن از SessionGate
+    let sessionGate = this.sessionGates.find(f => f.gateId === gate.id);
+    if (sessionGate) {
+      sessionGate.regionCode = "";
+    }
+
+    gate.selectedClusterId = "";
+
+    this.cd.detectChanges();
+  }
+
+  protected AutoSetGates() {
+
+    if (!this.gates?.length || !this.unselectedPureClusters?.length) {
+      return;
+    }
+
+    // مرتب‌سازی گیت‌ها بر اساس شماره (عدد واقعی)
+    const sortedGates = [...this.gates].sort(
+      (a, b) => parseInt(a.gateNumber) - parseInt(b.gateNumber)
+    );
+
+    for (const gate of sortedGates) {
+
+      // اگر کلاستری باقی نمونده، تموم
+      if (this.unselectedPureClusters.length === 0) {
+        break;
+      }
+
+      // اگر این گیت قبلاً مقصد داره، ردش کن
+      if (gate.selectedClusterId) {
+        continue;
+      }
+
+      // برداشتن اولین Cluster آزاد
+      const clusterCode = this.unselectedPureClusters.shift();
+      if (!clusterCode) continue;
+
+      // ست روی Gate
+      gate.selectedClusterId = clusterCode;
+
+      // ست روی SessionGate
+      const sessionGate = this.sessionGates.find(
+        sg => sg.gateId === gate.id
+      );
+      if (sessionGate) {
+        sessionGate.regionCode = clusterCode;
+      }
+    }
+
+    this.cd.detectChanges();
+  }
+
+  private async GetSessionGates() {
+    this.app.CallService(this.api.GetCurrentSessionGates(this.app.readToken()), ((data: CustomResponseType<SessionGate>) => {
+      let oldSessionGates = data.dataList;
+      oldSessionGates.forEach((gate: SessionGate) => {
+          if (gate.regionCode != "") {
+            let sessionGate = this.sessionGates.filter(f => f.gateId == gate.gateId)[0];
+            sessionGate.regionCode = gate.regionCode;
+            console.log(sessionGate);
+            this.cd.detectChanges();
+          }
+        }
+      );
+      console.log(this.sessionGates);
+    }));
+  }
+
+  protected getSessionGate(gate: Gate): SessionGate | undefined {
+    return this.sessionGates.find(sg => sg.gateId === gate.id);
   }
 }
