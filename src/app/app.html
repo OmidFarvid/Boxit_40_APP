@@ -1,40 +1,50 @@
 <div class="toolbar">
-    <mat-toolbar>
-      <button matIconButton class="example-icon" aria-label="Example icon-button with menu icon">
-        <mat-icon (click)="ToggleMenu()">menu</mat-icon>
-      </button>
-      <span>باکسیت</span>
-      <span class="example-spacer"></span>
-      <button matIconButton class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
-        <mat-icon>favorite</mat-icon>
-      </button>
-      <button matIconButton class="example-icon" aria-label="Example icon-button with share icon">
-        <mat-icon>share</mat-icon>
-      </button>
-      <button matIconButton class="example-icon" aria-label="Example icon-button with share icon" (click)="Logout()">
-        <i class="fa fa-close"></i>
-      </button>
-    </mat-toolbar>
-  </div>
+  <mat-toolbar>
+    <button matIconButton class="example-icon" aria-label="Example icon-button with menu icon">
+      <mat-icon (click)="ToggleMenu()">menu</mat-icon>
+    </button>
+    <span>باکسیت</span>
+    <span class="example-spacer"></span>
+    <button matIconButton class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+      <mat-icon>favorite</mat-icon>
+    </button>
+    <button matIconButton class="example-icon" aria-label="Example icon-button with share icon">
+      <mat-icon>share</mat-icon>
+    </button>
+    <button matIconButton class="example-icon" aria-label="Example icon-button with share icon" (click)="Logout()">
+      <i class="fa fa-close"></i>
+    </button>
+  </mat-toolbar>
+</div>
 <div class="row full-height main-row">
   <div class="col-3 menu-panel" [hidden]="!menuVis">
-<!--    <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Toggle right offcanvas</button>-->
+    <!--    <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Toggle right offcanvas</button>-->
 
 
-  <ul class="menu-items">
-    <li routerLink="/clusterManagement" (click)="menuVis=false" style="cursor: pointer;">
-      <span>مدیریت مقاصد</span>
-    </li>
-    <li routerLink="/usersManagement" (click)="menuVis=false" style="cursor: pointer;">
-      <span>مدیریت کاربران</span>
-    </li>
-    <li routerLink="/sessionManagement" (click)="menuVis=false" style="cursor: pointer;">
-      <span>مدیریت بسته ها</span>
-    </li>
-    <li routerLink="/gatesManagement" (click)="menuVis=false" style="cursor: pointer;">
-      <span>مدیریت شوت ها</span>
-    </li>
-  </ul>
+    <div class="row mt-2 px-2">
+      <div class="col">
+        <div class="row mt-2" routerLink="/clusterManagement" (click)="menuVis=false" style="cursor: pointer;">
+          <div class="col">
+            <span>مدیریت مقاصد</span>
+          </div>
+        </div>
+        <div class="row mt-2" routerLink="/usersManagement" (click)="menuVis=false" style="cursor: pointer;">
+          <div class="col">
+            <span>مدیریت کاربران</span>
+          </div>
+        </div>
+        <div class="row mt-2" routerLink="/sessionManagement" (click)="menuVis=false" style="cursor: pointer;">
+          <div class="col">
+            <span>مدیریت سورت ها</span>
+          </div>
+        </div>
+        <div class="row mt-2" routerLink="/gatesManagement" (click)="menuVis=false" style="cursor: pointer;">
+          <div class="col">
+            <span>مدیریت شوت ها</span>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
   <div [class]="{'col-12':!menuVis ,'col-9':menuVis}">
     <router-outlet/>

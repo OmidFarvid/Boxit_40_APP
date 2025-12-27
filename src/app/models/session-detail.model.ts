@@ -1,6 +1,6 @@
 import { Session } from "./session.model";
 
-export class SessionDetailModel {
+export class SessionDetail {
   Session: Session;
   ParcelCount: number;
   DetectedParcelCount: number;

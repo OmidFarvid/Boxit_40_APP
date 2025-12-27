@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SessionDetail } from './session-detail';
+import { GateSelectorDialog } from './gate-selector-dialog';
 
-describe('SessionDetail', () => {
-  let component: SessionDetail;
-  let fixture: ComponentFixture<SessionDetail>;
+describe('GateSelectorDialog', () => {
+  let component: GateSelectorDialog;
+  let fixture: ComponentFixture<GateSelectorDialog>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SessionDetail]
+      imports: [GateSelectorDialog]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(SessionDetail);
+    fixture = TestBed.createComponent(GateSelectorDialog);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });
