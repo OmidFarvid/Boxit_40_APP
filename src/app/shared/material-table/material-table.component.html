@@ -21,13 +21,16 @@
       <table class="w-100">
         <thead>
         <!-- Header Row -->
-        <tr class="bg-primary text-white fw-bold py-2" *ngIf="data && data.length>0">
+        <tr class="bg-primary text-white fw-bold py-2 header-row" *ngIf="data && data.length>0">
+          <th class="col text-center">
+            <span>ردیف</span>
+          </th>
           <th class="col text-center"
               *ngFor="let col of columnHeaders; trackBy: trackByKey"
               (click)="sort(col.key)"
               [ngClass]="'sortable'"
               [attr.aria-sort]="sortColumn === col.key ? (sortDirection === 'asc' ? 'ascending' : 'descending') : 'none'">
-            {{ col.label }}
+            <span>{{ col.label }}</span>
             <span *ngIf="sortColumn === col.key">
         {{ sortDirection === 'asc' ? '▲' : sortDirection === 'desc' ? '▼' : '' }}
       </span>
@@ -42,21 +45,26 @@
         </thead>
         <!-- Data Rows -->
         <tbody>
+
         <tr *ngFor="let row of filteredData; let i = index; trackBy: trackByRow"
             class="border-bottom p-2 text-center align-items-center py-3">
+          <td>
+            <span>{{i+1}}</span>
+          </td>
           <td *ngFor="let col of columnHeaders; trackBy: trackByKey" class="border-end border-start px-3">
             <span *ngIf="col.type=='number'">{{ row[col.key] | number:'1.0-2' }}</span>
             <span *ngIf="col.type==''">{{ row[col.key] }}</span>
             <span *ngIf="col.type=='date'">{{ shamsi_date(row[col.key]) }}</span>
+            <span *ngIf="col.type=='datetime'">{{ shamsi_date(row[col.key],true) }}</span>
             <span *ngIf="col.type=='boolean'">
         <i *ngIf="row[col.key]==true" class="fa fa-check-circle fa-2x green-color mt-2"></i>
-        <i *ngIf="row[col.key]==false" class="fa fa-times-circle fa-2x red-color mt-2"></i>
+        <i *ngIf="row[col.key]==false" class="fa fa-warning fa-2x yellow-color mt-2"></i>
             </span>
             <span>
               {{ GetFieldPostFix(col.key) }}
             </span>
           </td>
-          <td class="" style="width: 60px" *ngIf="enableChart" class="border-end border-start">
+          <td style="width: 60px" *ngIf="enableChart" class="border-end border-start">
             <canvas baseChart
                     [data]="getPieChartData(row)"
                     [type]="'pie'"

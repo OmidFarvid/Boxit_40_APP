@@ -49,7 +49,9 @@ export class SessionGatesManagement implements AfterViewInit {
 
   async ngAfterViewInit(): Promise<void> {
     let sessionId = this.route.snapshot.paramMap.get('id');
-    this.session = await this.sessionService.GetSessionById(this.app, sessionId);
+    await this.sessionService.GetSessionById(this.app, sessionId,(data:CustomResponseType<Session>)=>{
+      this.session=data.data;
+    });
     console.log('SessionId:', sessionId);
     this.GetGates()
     this.cd.detectChanges();

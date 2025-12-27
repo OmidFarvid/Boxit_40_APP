@@ -47,6 +47,7 @@ export class MaterialTableComponent {
   @Input() postFixColumnsChars: any[];
   @Input() footer_class: string;
   @Input() footer_text: any;
+  @Input() show_index_col: boolean = true;
 
 
   @Output() OnEdit = new EventEmitter<any>();
@@ -237,9 +238,14 @@ export class MaterialTableComponent {
     });
   }
 
-  shamsi_date(date: any): string {
+  shamsi_date(date: any,show_time:boolean = false): string {
     if (date != null) {
-      return moment(date).locale('fa').format('YYYY/MM/DD');
+      if (show_time){
+        return moment(date).locale('fa').format('YYYY/MM/DD - hh:mm:ss A');
+      }
+      else {
+        return moment(date).locale('fa').format('YYYY/MM/DD');
+      }
     } else {
       return " ";
     }
