@@ -31,28 +31,10 @@ export class SessionsManagement implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.GetSessions();
+    // this.GetSessions();
   }
 
-  uploadFile(event: any) {
-    const file: File = event.target.files[0];
-    const reader = new FileReader();
 
-    reader.onload = () => {
-      const arrayBuffer = reader.result as ArrayBuffer;
-
-      const bytes = Array.from(new Uint8Array(arrayBuffer));
-
-      this.app.CallService(
-        this.api.UploadExcel(this.app.readToken(), {bytes}),
-        (data: any) => {
-          console.log("Uploaded:", data);
-        }
-      );
-    };
-
-    reader.readAsArrayBuffer(file);
-  }
 
   protected session: Session = new Session();
   SessionType = Session;
@@ -138,9 +120,7 @@ export class SessionsManagement implements AfterViewInit {
     return data.startDateTime == null && data.endDateTime == null;
   }
 
-  protected AllowUpload() {
-    return this.sessions.filter((f)=>f.startDateTime==null && f.endDateTime==null).length>0;
-  }
+
 
   protected AllowDelete = (row: Session) => {
     return row.startDateTime == null && row.endDateTime == null;

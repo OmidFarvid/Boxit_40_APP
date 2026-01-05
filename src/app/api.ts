@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {Observable} from 'rxjs';
 import {environment} from '../environments/environment';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Cluster} from './models/cluster.model';
+import {Region} from './models/cluster.model';
 import {Gate} from './models/gate.model';
 import {Session} from './models/session.model';
 import {SessionGate} from './models/session-gate.model';
@@ -17,7 +17,7 @@ export class Api {
 
 
   //--------------------------- Cluster
-  public AddCluster(cluster: Cluster, token: string): Observable<any> {
+  public AddCluster(cluster: Region, token: string): Observable<any> {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
@@ -36,7 +36,7 @@ export class Api {
     return this.httpClient.post(environment.baseUrl + '/Cluster/GetClustersByMachine/' + token, {"ID": Machine_Id});
   }
 
-  DeleteCluster(token: string, Cluster: Cluster): Observable<any> {
+  DeleteCluster(token: string, Cluster: Region): Observable<any> {
     return this.httpClient.post(environment.baseUrl + '/Cluster/DeleteCluster/' + token, Cluster);
   }
 
@@ -44,7 +44,7 @@ export class Api {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
-    return this.httpClient.post(environment.baseUrl + '/Session/UploadExcel', bytes, {headers});
+    return this.httpClient.post(environment.baseUrl + '/Parcel/UploadExcel', bytes, {headers});
   }
 
   public GetGates(token: string): Observable<any> {
@@ -88,11 +88,11 @@ export class Api {
     });
     return this.httpClient.get(environment.baseUrl + '/Session/GetDetailById/'+sessionId, {headers});
   }
-  public GetParcelsBySessionId(token: string,sessionId:string): Observable<any> {
+  public GetParcels(token: string, sessionId:string): Observable<any> {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
-    return this.httpClient.get(environment.baseUrl + '/Session/GetParcelsBySessionId/'+sessionId, {headers});
+    return this.httpClient.get(environment.baseUrl + '/Parcel/GetParcels/'+sessionId, {headers});
   }
 
   public AddSession(token: string,session:Session): Observable<any> {
@@ -124,11 +124,11 @@ export class Api {
   }
 ///////////////////////////////////Session
 
-  public SetSessionGates(token: string,sessionGates:SessionGate[]): Observable<any> {
+  public SetSessionGates(token: string,gates:Gate[]): Observable<any> {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
-    return this.httpClient.post(environment.baseUrl + '/SessionGates/add',sessionGates, {headers});
+    return this.httpClient.post(environment.baseUrl + '/Gate/SaveGatesRegions',gates, {headers});
   }
 
   // public GetSessionGates(token: string,session:Session): Observable<any> {
@@ -146,10 +146,10 @@ export class Api {
   }
 
 
-  public GetSessionClusters(token: string,session:Session): Observable<any> {
+  public GetRegions(token: string, session:Session): Observable<any> {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
-    return this.httpClient.get(environment.baseUrl + '/Session/GetSessionClusters/'+session.id, {headers});
+    return this.httpClient.get(environment.baseUrl + '/Parcel/GetRegions/', {headers});
   }
 }

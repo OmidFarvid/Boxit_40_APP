@@ -37,10 +37,10 @@ export class SessionDetailComponent implements AfterViewInit {
     let sessionId = this.route.snapshot.paramMap.get('id');
     await this.sessionService.GetSessionById(this.app, sessionId, (data: CustomResponseType<Session>) => {
       this.session = data.data;
-      this.sessionService.GetParcelsBySessionId(this.app, this.session?.id, (data: CustomResponseType<Parcel>) => {
-        this.parcels = data.dataList;
-        this.cd.detectChanges();
-      });
+      // this.sessionService.GetParcelsBySessionId(this.app, this.session?.id, (data: CustomResponseType<Parcel>) => {
+      //   this.parcels = data.dataList;
+      //   this.cd.detectChanges();
+      // });
     });
   }
 }

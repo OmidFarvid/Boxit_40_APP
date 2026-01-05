@@ -1,6 +1,7 @@
 import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {Gate} from '../models/gate.model';
+import {Region} from '../models/cluster.model';
 
 @Component({
   selector: 'app-gate-selector-dialog',
@@ -10,21 +11,21 @@ import {Gate} from '../models/gate.model';
 })
 export class GateSelectorDialog {
   gate: Gate;
-  clusters: string[];
+  regions: Region[];
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: {
       gate: Gate;
-      clusters: string[];
+      regions: Region[];
     },
     private dialogRef: MatDialogRef<GateSelectorDialog>
   ) {
     this.gate = data.gate;
-    this.clusters = data.clusters;
+    this.regions = data.regions;
   }
 
-  selectCluster(cluster: string) {
-    this.dialogRef.close(cluster);
+  selectCluster(region: Region) {
+    this.dialogRef.close(region);
   }
 
   cancel() {

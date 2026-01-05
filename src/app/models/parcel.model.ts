@@ -14,6 +14,8 @@ export class Parcel extends BaseEntity implements IBaseEntity {
   gateNumber: number | null;
   @ColumnHeader('زمان سورت', "datetime", 5)
   sortedDateTime: string;
+  @ColumnHeader('نام مقصد', "", 6)
+  regionTitle: string;
 
   Validate(): string {
     throw new Error("Method not implemented.");

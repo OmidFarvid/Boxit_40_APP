@@ -2,13 +2,16 @@ import {BaseEntity} from './base-entity.model';
 import {IBaseEntity} from './ibase-entity';
 import {ColumnHeader} from './Shared/column-header.decorator';
 
-export class Cluster extends BaseEntity implements IBaseEntity{
+export class Region extends BaseEntity implements IBaseEntity{
 
   @ColumnHeader('نام مقصد',"",1)
-  clusterTitle:string;
+  regionTitle:string;
   @ColumnHeader('کد مقصد',"",2)
-  clusterCode:string;
-
+  regionCode:string;
+  parcelCount:number;
+  fullTitle(): string {
+    return this.regionTitle + '(' + this.regionCode + ')';
+  }
     Validate(): string {
         throw new Error("Method not implemented.");
     }

@@ -32,7 +32,8 @@
   <div class="col-12">
     <app-material-table [type]="GateType"
                         [deleteMessageFn]="customDeleteMessage"
-                        [data]="gates" [filterBoxCols]="6" [appComponent]="app" [title]="'شوت ها'"
-    (OnDelete)="DeleteGate($event)"></app-material-table>
+                        [data]="gates" [filterBoxCols]="6" [enableDelete]=false
+                        [appComponent]="app" [title]="'شوت ها'"
+                        (OnDelete)="DeleteGate($event)"></app-material-table>
   </div>
 </div>

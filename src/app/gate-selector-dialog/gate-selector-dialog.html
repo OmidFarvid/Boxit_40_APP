@@ -3,16 +3,48 @@
     <h4 class="mb-2">
       انتخاب مقصد برای شوت {{ gate.gateNumber }}
     </h4>
-
-    <ul class="list-group overflow-y-scroll list-unstyled">
-      @for (cluster of clusters; track cluster) {
-        <li class="my-2 py-2" role="presentation"
-            (click)="selectCluster(cluster)">
-          <i class="fa fa-check-square-o fa-2x px-3"></i>
-          <span >{{ cluster }}</span>
-        </li>
-      }
-    </ul>
+    <table class="table">
+      <thead>
+      <tr>
+        <th>
+          نام مقصد
+        </th>
+        <th>
+          کد مقصد
+        </th>
+        <th>
+          تعداد بسته
+        </th>
+        <th>
+         انتخاب
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+        @for (region of regions; track region) {
+          <tr>
+            <td>
+      <span>
+        {{ region.regionTitle }}
+      </span>
+            </td>
+            <td>
+      <span>
+        {{ region.regionCode }}
+      </span>
+            </td>
+            <td>
+      <span>
+        {{ region.parcelCount }}
+      </span>
+            </td>
+            <td>
+              <i class="fa fa-check-square-o fa-2x px-3" (click)="selectCluster(region)"></i>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
 
     <div class="text-end mt-3">
       <button class="btn btn-danger" (click)="cancel()">انصراف</button>

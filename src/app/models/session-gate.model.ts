@@ -9,7 +9,8 @@ export class SessionGate extends BaseEntity implements IBaseEntity {
   //@ColumnHeader('کد مقصد',"",2)
   gateId: string;
   clusterId: string;
-  regionCode:string="";
+  regionCode: string = "";
+  regionTitle: string = "";
 
   Validate(): string {
     throw new Error("Method not implemented.");

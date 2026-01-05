@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SessionGatesManagement } from './session-gates-management';
+import { GatesRegionManagement } from './gates-region-management.component';
 
 describe('SessionGatesManagement', () => {
-  let component: SessionGatesManagement;
-  let fixture: ComponentFixture<SessionGatesManagement>;
+  let component: GatesRegionManagement;
+  let fixture: ComponentFixture<GatesRegionManagement>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SessionGatesManagement]
+      imports: [GatesRegionManagement]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(SessionGatesManagement);
+    fixture = TestBed.createComponent(GatesRegionManagement);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

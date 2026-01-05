@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {Observable} from 'rxjs';
-import {Cluster} from '../models/cluster.model';
+import {Region} from '../models/cluster.model';
 import {environment} from '../../environments/environment';
 import {HttpClient} from '@angular/common/http';
 import {Session} from '../models/session.model';
@@ -46,10 +46,10 @@ export class SessionService {
     });
   }
 
-  GetParcelsBySessionId(appComponent: App, sessionId: string | null ,resolveCallback: Function){
+  GetParcels(appComponent: App, sessionId: string | null ,resolveCallback: Function){
     return new Promise((resolve, reject) => {
       appComponent.CallService(
-        this.apiService.GetParcelsBySessionId(appComponent.readToken(),sessionId==null ? "" :sessionId),
+        this.apiService.GetParcels(appComponent.readToken(),sessionId==null ? "" :sessionId),
         (data: CustomResponseType<Parcel>) => {
           resolve(data.data);
           resolveCallback(data);

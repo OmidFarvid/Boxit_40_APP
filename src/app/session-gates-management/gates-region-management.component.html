@@ -6,11 +6,11 @@
 
         <div class="col-8 px-5 align-items-center gap-3">
 
-          <span class="b-mitra" role="button" (click)="!getSessionGate(gate)?.regionCode && openClusterDialog(gate)">
-            {{ getSessionGate(gate)?.regionCode || 'فاقد مقصد' }}
+          <span class="b-mitra" role="button" (click)="gate.regionCode == null && openClusterDialog(gate)">
+            {{GetGateClusterTitle(gate)}}
           </span>
-          @if (getSessionGate(gate)?.regionCode) {
-            <i class="fa fa-times fa-2x text-danger"
+          @if (gate.regionCode != null) {
+            <i class="fa fa-times fa-2x text-danger" role="button"
                (click)="clearGateCluster(gate)"></i>
           }
         </div>
@@ -35,11 +35,11 @@
         </span>
         <div class="col-8 px-5 align-items-center text-start gap-3">
 
-          <span class="b-mitra" role="button" (click)="!getSessionGate(gate)?.regionCode && openClusterDialog(gate)">
-            {{ getSessionGate(gate)?.regionCode || 'فاقد مقصد' }}
+           <span class="b-mitra" role="button" (click)="gate.regionCode == null && openClusterDialog(gate)">
+            {{GetGateClusterTitle(gate)}}
           </span>
-          @if (getSessionGate(gate)?.regionCode) {
-            <i class="fa fa-times fa-2x text-danger"
+          @if (gate.regionCode != null) {
+            <i class="fa fa-times fa-2x text-danger" role="button"
                (click)="clearGateCluster(gate)"></i>
           }
         </div>
@@ -54,6 +54,6 @@
     </app-management-buttons>
   </div>
   <div class="col-2 text-start d-grid">
-    <button class="btn btn-info" (click)="AutoSetGates()">چیدمان خودکار</button>
+        <button class="btn btn-info" (click)="AutoSetGates()">چیدمان خودکار</button>
   </div>
 </div>
