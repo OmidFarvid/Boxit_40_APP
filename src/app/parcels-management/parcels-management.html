@@ -1,0 +1,22 @@
+<div class="row mt-2 p-5">
+  <div class="col-12">
+    <div class="row mt-2 justify-content-center">
+      <div class="col-3 d-grid">
+        <button class="btn btn-primary" (click)="fileInput.click()">
+          انتخاب فایل اکسل<i class="fa fa-upload px-2"></i>
+        </button>
+
+        <input type="file"
+               #fileInput
+               accept=".xlsx,.xls"
+               style="display:none"
+               (change)="uploadFile($event)">
+      </div>
+    </div>
+    <div class="row mt-2 p-5">
+      <div class="col-12">
+        <app-material-table [type]="ParcelType" [data]="parcels" [enableActions]=false></app-material-table>
+      </div>
+    </div>
+  </div>
+</div>
