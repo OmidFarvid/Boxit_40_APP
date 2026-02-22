@@ -1,0 +1,18 @@
+<div class="row mx-1">
+  <div class="col-12">
+    <div class="row main-cnt">
+      @for (parcel of parcels; track parcel) {
+        <div class="col-4">
+          <div class="parcel-box" [ngClass]="{'parcel-sorted': parcel.sorted, 'parcel-pending': !parcel.sorted}">
+            <div class="pb-3">
+              <label class="big-barcode">{{ parcel.barcode.slice(parcel.barcode.length - 4,parcel.barcode.length) }}</label>
+              <label class="small-barcode">{{ parcel.barcode.slice(0, parcel.barcode.length - 4) }}</label>
+            </div>
+            <hr>
+            <label class="gate-number">{{ parcel.gateNumber == null ? 0 : parcel.gateNumber }}</label>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</div>
