@@ -88,11 +88,11 @@ export class Api {
     });
     return this.httpClient.get(environment.baseUrl + '/Session/GetDetailById/'+sessionId, {headers});
   }
-  public GetParcels(token: string, sessionId:string): Observable<any> {
+  public GetParcels(token: string,barcode:string): Observable<any> {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
-    return this.httpClient.get(environment.baseUrl + '/Parcel/GetParcels/'+sessionId, {headers});
+    return this.httpClient.get(environment.baseUrl + '/Parcel/GetParcels/?barcode='+barcode, {headers});
   }
 
   public AddSession(token: string,session:Session): Observable<any> {
@@ -145,11 +145,18 @@ export class Api {
     return this.httpClient.get(environment.baseUrl + '/SessionGates/GetCurrentSessionGates', {headers});
   }
 
-
-  public GetRegions(token: string, session:Session): Observable<any> {
+  public GetRegions(token: string): Observable<any> {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
     return this.httpClient.get(environment.baseUrl + '/Parcel/GetRegions/', {headers});
+  }
+
+  ///////////////////////////////////Monitoring
+  public GetMonitoringParcels(token: string): Observable<any> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.httpClient.get(environment.baseUrl + '/Monitoring/GetCurrentParcels/', {headers});
   }
 }

@@ -1,21 +1,25 @@
-<div class="toolbar">
-  <mat-toolbar>
-    <button matIconButton class="example-icon" aria-label="Example icon-button with menu icon">
-      <mat-icon (click)="ToggleMenu()">menu</mat-icon>
-    </button>
-    <span>باکسیت</span>
-    <span class="example-spacer"></span>
-    <button matIconButton class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
-      <mat-icon>favorite</mat-icon>
-    </button>
-    <button matIconButton class="example-icon" aria-label="Example icon-button with share icon">
-      <mat-icon>share</mat-icon>
-    </button>
-    <button matIconButton class="example-icon" aria-label="Example icon-button with share icon" (click)="Logout()">
-      <i class="fa fa-close"></i>
-    </button>
-  </mat-toolbar>
-</div>
+@if (!router.url.includes('monitoringComponent')) {
+  <div class="toolbar">
+    <mat-toolbar>
+      <div class="ms-2">
+      @if (!menuVis){
+        <i class="fa fa-bars" (click)="ToggleMenu()"></i>
+      }
+      @else {
+      <i class="fa fa-close" (click)="ToggleMenu()"></i>
+      }
+      </div>
+      <span>باکسیت</span>
+
+    </mat-toolbar>
+  </div>
+
+}
+@if (progressActivated) {
+  <div class="progress_overlay">
+    <img src="./assets/svg/loading.svg" alt=""/>
+  </div>
+}
 <div class="row full-height main-row">
   <div class="col-3 menu-panel" [hidden]="!menuVis">
     <!--    <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Toggle right offcanvas</button>-->
@@ -46,6 +50,11 @@
         <div class="row mt-2" routerLink="/gatesRegionManagement" (click)="menuVis=false" style="cursor: pointer;">
           <div class="col">
             <span>مدیریت مقصد ها</span>
+          </div>
+        </div>
+        <div class="row mt-2" routerLink="/monitoringComponent" (click)="menuVis=false" style="cursor: pointer;">
+          <div class="col">
+            <span>Monitoring</span>
           </div>
         </div>
       </div>

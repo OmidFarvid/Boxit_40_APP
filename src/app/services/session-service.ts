@@ -46,10 +46,10 @@ export class SessionService {
     });
   }
 
-  GetParcels(appComponent: App, sessionId: string | null ,resolveCallback: Function){
+  GetParcels(appComponent: App, barcode: string ,resolveCallback: Function){
     return new Promise((resolve, reject) => {
       appComponent.CallService(
-        this.apiService.GetParcels(appComponent.readToken(),sessionId==null ? "" :sessionId),
+        this.apiService.GetParcels(appComponent.readToken(),barcode),
         (data: CustomResponseType<Parcel>) => {
           resolve(data.data);
           resolveCallback(data);

@@ -61,14 +61,11 @@ export class GatesRegionManagement implements AfterViewInit {
   }
 
   public GetRegions() {
-    this.app.CallService(this.api.GetRegions(this.app.readToken(), this.session), ((data: CustomResponseType<Region>) => {
+    this.app.CallService(this.api.GetRegions(this.app.readToken()), ((data: CustomResponseType<Region>) => {
       this.regions = data.dataList;
       this.unselectedRegions = data.dataList;
-
-      console.log(this.regions);
       this.gates.forEach(gate => {
         this.unselectedRegions = this.unselectedRegions.filter(f=>f.regionCode!=gate.regionCode);
-        console.log(this.unselectedRegions);
       });
       this.cd.detectChanges();
     }));

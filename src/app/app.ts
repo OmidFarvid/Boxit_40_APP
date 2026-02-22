@@ -1,4 +1,4 @@
-import {Component, OnInit, signal} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit, signal} from '@angular/core';
 import {Router, RouterLink, RouterOutlet} from '@angular/router';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatButtonModule} from '@angular/material/button';
@@ -19,17 +19,18 @@ import {MatDialog} from '@angular/material/dialog';
 export class App implements OnInit {
   protected readonly title = signal('Boxit_40_APP');
   protected menuVis: boolean = false;
-  private progressActivated: boolean = false;
+  protected progressActivated: boolean = false;
   private isLoggedIn: false;
 
   protected ToggleMenu() {
     this.menuVis = !this.menuVis;
   }
 
-  constructor(private router: Router
+  constructor(protected router: Router
     , private snackBar: MatSnackBar
     , private cookieService: CookieService
     , public deleteConfirmDialog: MatDialog
+    , public cdr: ChangeDetectorRef
   ) {
   }
 
@@ -52,6 +53,7 @@ export class App implements OnInit {
     }
     service.subscribe({
       next: (data: CustomResponseType<any>) => {
+        this.FuncActiveProgress(false);
         if (data.needLogin) {
           this.SetLogoutMessage(data.message);
           this.logout();
@@ -87,7 +89,9 @@ export class App implements OnInit {
   }
 
   FuncActiveProgress = (mode: boolean) => {
-    return this.progressActivated = mode
+
+    this.progressActivated = mode;
+    this.cdr.detectChanges();
   }
 
 
@@ -117,7 +121,7 @@ export class App implements OnInit {
       verticalPosition: this.verticalPosition,
       duration: this.durationInSeconds * 1000,
       direction: 'rtl',
-      panelClass: ['GreenSnackBar']
+      panelClass: ['GreenSnackBar','b-mitra']
     });
   };
 

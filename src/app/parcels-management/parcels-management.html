@@ -13,9 +13,19 @@
                (change)="uploadFile($event)">
       </div>
     </div>
+    <div class="row mt-2 justify-content-center">
+      <div class="col-3 d-grid">
+        <input #parcelText class="form-control" [(ngModel)]="barcode" (keydown)="GetParcelsByEnter($event)">
+      </div>
+      <div class="col-3 d-grid">
+        <button class="btn btn-success" (click)="GetParcels()">دریافت</button>
+      </div>
+    </div>
     <div class="row mt-2 p-5">
       <div class="col-12">
-        <app-material-table [type]="ParcelType" [data]="parcels" [enableActions]=false></app-material-table>
+        <app-material-table [type]="ParcelType" [data]="parcels" [enableActions]=false
+        [title]="oldBarcode"
+        ></app-material-table>
       </div>
     </div>
   </div>
